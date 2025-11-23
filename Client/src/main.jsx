@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import CustomerListPage from "./pages/CustomerListPage"; // Import the new component
 
 // Protected Route Wrapper
 function PrivateRoute({ children }) {
@@ -39,19 +40,10 @@ root.render(
   <AuthProvider>
     <Router>
       <Routes>
-        {/* Redirect root to dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
-        {/* Protected Routes inside App */}
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <App />
-            </PrivateRoute>
-          }
-        >
-          <Route path="dashboard" element={<Dashboard />} />
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute><App /></PrivateRoute>}>
+          <Route path="/" element={<Dashboard />} /> {/* Default protected route: Dashboard */}
+          <Route path="/customers" element={<CustomerListPage />} /> {/* Use the new component */}
         </Route>
 
         {/* Public Routes */}
